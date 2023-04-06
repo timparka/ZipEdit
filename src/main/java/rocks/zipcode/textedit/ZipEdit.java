@@ -48,12 +48,13 @@ public final class ZipEdit extends JFrame implements ActionListener{
         frame.add(area);
         frame.setLocationRelativeTo(null);
         frame.setSize(640, 480);
+        area.setLineWrap(true);
 
         // Build the menu
         JMenuBar menu_main = new JMenuBar();
 
         JMenu menu_file = new JMenu("File");
-        JMenu menu_filer = new JMenu("Edit");
+        JMenu menu_edit = new JMenu("Edit");
 
         JMenuItem menuitem_new = new JMenuItem("New");
         JMenuItem menuitem_open = new JMenuItem("Open");
@@ -63,6 +64,7 @@ public final class ZipEdit extends JFrame implements ActionListener{
         JMenuItem menuitem_cut = new JMenuItem("Cut");
         JMenuItem menuitem_copy = new JMenuItem("Copy");
         JMenuItem menuitem_paste = new JMenuItem("Paste");
+        JMenuItem menuitem_find = new JMenuItem("Find");
 
         menuitem_new.addActionListener(this);
         menuitem_open.addActionListener(this);
@@ -72,6 +74,7 @@ public final class ZipEdit extends JFrame implements ActionListener{
         menuitem_cut.addActionListener(this);
         menuitem_copy.addActionListener(this);
         menuitem_paste.addActionListener(this);
+        menuitem_find.addActionListener(this);
 
         menu_main.add(menu_file);
 
@@ -80,11 +83,12 @@ public final class ZipEdit extends JFrame implements ActionListener{
         menu_file.add(menuitem_save);
         menu_file.add(menuitem_quit);
 
-        menu_main.add(menu_filer);
+        menu_main.add(menu_edit);
 
-        menu_filer.add(menuitem_cut);
-        menu_filer.add(menuitem_copy);
-        menu_filer.add(menuitem_paste);
+        menu_edit.add(menuitem_cut);
+        menu_edit.add(menuitem_copy);
+        menu_edit.add(menuitem_paste);
+        menu_edit.add(menuitem_find);
 
 
         frame.setJMenuBar(menu_main);
@@ -94,6 +98,21 @@ public final class ZipEdit extends JFrame implements ActionListener{
 
     public String frameTitle() {
         return "Zip Edit ("+this.filename+")";
+    }
+    public void findText() {
+        String search = JOptionPane.showInputDialog(frame, "Search: ");
+        if (search != null && !search.isEmpty()) {
+            String input = area.getText();
+            int index = input.indexOf(search);
+            if (index >= 0) {
+                area.setCaretPosition(index + search.length());
+                area.setSelectionStart(index);
+                area.setSelectionEnd(index + search.length());
+                area.requestFocusInWindow();
+            } else {
+                JOptionPane.showMessageDialog(frame, "Not found.");
+            }
+        }
     }
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -142,6 +161,14 @@ public final class ZipEdit extends JFrame implements ActionListener{
             area.setText("");
         } else if (ae.equals("Quit")) {
             System.exit(0);
+        } else if (ae.equals("Cut")) {
+            area.cut();
+        } else if (ae.equals("Copy")) {
+            area.copy();
+        } else if (ae.equals("Paste")) {
+            area.paste();
+        } else if (ae.equals("Find")) {
+            findText();
         }
     }
 }
