@@ -53,16 +53,25 @@ public final class ZipEdit extends JFrame implements ActionListener{
         JMenuBar menu_main = new JMenuBar();
 
         JMenu menu_file = new JMenu("File");
+        JMenu menu_filer = new JMenu("Edit");
 
         JMenuItem menuitem_new = new JMenuItem("New");
         JMenuItem menuitem_open = new JMenuItem("Open");
         JMenuItem menuitem_save = new JMenuItem("Save");
         JMenuItem menuitem_quit = new JMenuItem("Quit");
 
+        JMenuItem menuitem_cut = new JMenuItem("Cut");
+        JMenuItem menuitem_copy = new JMenuItem("Copy");
+        JMenuItem menuitem_paste = new JMenuItem("Paste");
+
         menuitem_new.addActionListener(this);
         menuitem_open.addActionListener(this);
         menuitem_save.addActionListener(this);
         menuitem_quit.addActionListener(this);
+
+        menuitem_cut.addActionListener(this);
+        menuitem_copy.addActionListener(this);
+        menuitem_paste.addActionListener(this);
 
         menu_main.add(menu_file);
 
@@ -71,10 +80,16 @@ public final class ZipEdit extends JFrame implements ActionListener{
         menu_file.add(menuitem_save);
         menu_file.add(menuitem_quit);
 
+        menu_main.add(menu_filer);
+
+        menu_filer.add(menuitem_cut);
+        menu_filer.add(menuitem_copy);
+        menu_filer.add(menuitem_paste);
+
+
         frame.setJMenuBar(menu_main);
 
         frame.setVisible(true);
-
     }
 
     public String frameTitle() {
